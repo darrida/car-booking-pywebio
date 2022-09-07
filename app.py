@@ -237,7 +237,7 @@ def update_driver(choice, row, username, name):
         None
     """
 
-    put_text("You click %s button ar row %s" % (choice, row))
+    put_text(f"You click {choice} button ar row {row}")
     bookings.update({'assigned_driver': username, 'status': 'booked'}, User.booking_id == row['booking_id'])
     toast(f"Marked as booked for driver @{username}.")
     # username = row['username']
@@ -277,7 +277,7 @@ def update_status(choice, row, username, name):
         None
     """
 
-    put_text("You click %s button ar row %s" % (choice, row))
+    put_text(f"You click {choice} button ar row {row}")
     bookings.update({'status': 'done'}, User.booking_id == row['booking_id'])
     toast("Marked as done.")
     # username = row['username']
@@ -354,10 +354,8 @@ def cancel_request(choice, row, username, name):
     """
     # put_text("You click %s button ar row %s" % (choice, row))
     results = users.search(User.username == username)
-    user_type = ''
-    if len(results) > 0:
-        user_type = results[0].get("user_type")
-    print("User " + user_type)
+    user_type = results[0].get("user_type") if len(results) > 0 else ''
+    print(f"User {user_type}")
     if user_type == 'passenger':
         bookings.update({'status': 'cancelled by user'}, User.booking_id == row['booking_id'])
     elif user_type == 'admin':
